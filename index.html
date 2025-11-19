@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floamy | Doorstep Car Wash Bangalore</title>
+    <title>Floamy | Premium Doorstep Car Wash</title>
     <meta name="description" content="Floamy delivers a premium doorstep wash focused on the essentials. Serving Bangalore.">
     
     <!-- Tailwind CSS -->
@@ -12,7 +12,7 @@
     <!-- Google Fonts: Syne for headings, Inter for body -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -25,30 +25,41 @@
                         sans: ['Inter', 'sans-serif'],
                         display: ['Syne', 'sans-serif'],
                     },
+                    letterSpacing: {
+                        tightest: '-.075em',
+                        tighter: '-.05em',
+                        tight: '-.025em',
+                        normal: '0',
+                        wide: '.025em',
+                        wider: '.05em',
+                        widest: '.1em',
+                    },
                     colors: {
                         brand: {
-                            50: '#f0f9ff',
-                            400: '#38bdf8', 
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            900: '#0c4a6e',
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            400: '#60a5fa', // Softer Blue
+                            500: '#3b82f6', // Royal Blue
+                            600: '#2563eb', // Deep Royal
+                            900: '#1e3a8a', // Navy
                         },
                         dark: {
-                            900: '#050505', 
-                            800: '#0a0a0a',
-                            700: '#171717',
+                            900: '#000000', // Pure Black
+                            800: '#0a0a0a', // Onyx
+                            700: '#121212', // Off-Black
+                            600: '#1c1c1c',
                         }
                     },
                     animation: {
-                        'blob': 'blob 10s infinite',
-                        'marquee': 'marquee 25s linear infinite',
+                        'blob': 'blob 12s infinite',
+                        'marquee': 'marquee 30s linear infinite',
                     },
                     keyframes: {
                         blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '0%': { transform: 'translate(0px, 0px) scale(1)', opacity: '0.3' },
+                            '33%': { transform: 'translate(30px, -30px) scale(1.1)', opacity: '0.4' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)', opacity: '0.3' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)', opacity: '0.3' },
                         },
                         marquee: {
                             '0%': { transform: 'translateX(0%)' },
@@ -63,35 +74,49 @@
     <style>
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #050505;
+            background: #000000;
         }
         ::-webkit-scrollbar-thumb {
-            background: #0ea5e9;
-            border-radius: 4px;
+            background: #333;
+            border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #38bdf8;
+            background: #2563eb;
         }
 
         /* Reveal Animation Classes */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
         }
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Gradient Text Utility */
+        /* Gradient Text Utility - Premium Silver/Blue */
         .text-gradient {
-            background: linear-gradient(to right, #fff, #38bdf8);
+            background: linear-gradient(to right, #ffffff, #93c5fd);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+        
+        /* Premium Gold/Silver Gradient for specific accents */
+        .text-gradient-gold {
+            background: linear-gradient(to right, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         /* Loader */
@@ -100,51 +125,49 @@
         }
     </style>
 </head>
-<body class="bg-dark-900 text-white font-sans overflow-x-hidden selection:bg-brand-500 selection:text-white">
+<body class="bg-dark-900 text-gray-200 font-sans overflow-x-hidden selection:bg-brand-600 selection:text-white">
 
     <!-- Loading Screen -->
-    <div id="loader" class="fixed inset-0 bg-dark-900 z-[60] flex items-center justify-center">
+    <div id="loader" class="fixed inset-0 bg-black z-[60] flex items-center justify-center">
         <div class="text-center">
-            <div class="font-display text-4xl font-bold tracking-tighter animate-bounce text-brand-400">FLOAMY</div>
-            <div class="text-sm text-gray-500 mt-2">Loading...</div>
+            <div class="font-display text-4xl font-bold tracking-widest animate-pulse text-white">FLOAMY</div>
+            <div class="text-xs text-gray-600 mt-4 uppercase tracking-widest">Premium Care</div>
         </div>
     </div>
 
-    <!-- Background Blobs (Bubbles Effect) -->
+    <!-- Background Ambient Light (Subtler) -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-600 rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-blob"></div>
-        <div class="absolute top-1/3 right-1/4 w-80 h-80 bg-cyan-500 rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-blob animation-delay-2000"></div>
-        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-blob animation-delay-4000"></div>
+        <div class="absolute top-[-10%] left-1/4 w-[500px] h-[500px] bg-brand-900 rounded-full mix-blend-screen filter blur-[120px] opacity-20 animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-1/4 w-[600px] h-[600px] bg-blue-900 rounded-full mix-blend-screen filter blur-[150px] opacity-10 animate-blob animation-delay-2000"></div>
     </div>
 
     <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-dark-900/80 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/5 transition-all duration-300" id="navbar">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-display font-bold tracking-tighter z-50 relative flex items-center gap-2">
-                <i data-lucide="droplets" class="text-brand-500 w-6 h-6"></i>
+            <a href="#" class="text-2xl font-display font-bold tracking-wider z-50 relative flex items-center gap-2 text-white">
                 FLOAMY
             </a>
             
             <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-8 items-center">
-                <a href="#services" class="text-sm hover:text-brand-400 transition-colors">Services</a>
-                <a href="#pricing" class="text-sm hover:text-brand-400 transition-colors">Pricing</a>
-                <a href="https://wa.me/919742943270" class="px-6 py-2 bg-brand-600 rounded-full text-sm font-medium hover:bg-brand-500 transition-all duration-300 shadow-lg shadow-brand-500/20 flex items-center gap-2">
-                    <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp Us
+            <div class="hidden md:flex space-x-10 items-center">
+                <a href="#services" class="text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wider">Services</a>
+                <a href="#pricing" class="text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wider">Pricing</a>
+                <a href="https://wa.me/919742943270" class="px-6 py-2.5 bg-white text-black rounded-full text-xs font-bold hover:bg-gray-200 transition-all duration-300 shadow-lg shadow-white/10 flex items-center gap-2 uppercase tracking-widest">
+                    Book Now
                 </a>
             </div>
 
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-btn" class="md:hidden z-50 focus:outline-none">
-                <i data-lucide="menu" class="w-8 h-8"></i>
+            <button id="mobile-menu-btn" class="md:hidden z-50 focus:outline-none text-white">
+                <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
         </div>
 
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="fixed inset-0 bg-dark-900 z-40 flex flex-col items-center justify-center space-y-8 text-2xl font-display transform translate-x-full transition-transform duration-300">
-            <a href="#services" class="mobile-link">Services</a>
-            <a href="#pricing" class="mobile-link">Pricing</a>
-            <a href="https://wa.me/919742943270" class="text-brand-400 mobile-link font-bold flex items-center gap-2"><i data-lucide="message-circle" class="w-6 h-6"></i> WhatsApp Us</a>
+        <div id="mobile-menu" class="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center space-y-8 text-3xl font-display transform translate-x-full transition-transform duration-500">
+            <a href="#services" class="mobile-link hover:text-brand-500 transition-colors">Services</a>
+            <a href="#pricing" class="mobile-link hover:text-brand-500 transition-colors">Pricing</a>
+            <a href="https://wa.me/919742943270" class="text-brand-400 mobile-link font-bold flex items-center gap-2 text-xl mt-4">WhatsApp Us</a>
         </div>
     </nav>
 
@@ -152,118 +175,125 @@
     <section class="relative min-h-screen flex items-center justify-center pt-20 z-10">
         <div class="container mx-auto px-6 text-center">
             <div class="reveal">
-                <span class="inline-block py-1 px-3 rounded-full bg-brand-900/50 border border-brand-500/30 text-xs tracking-widest uppercase mb-6 text-brand-400">Serving Bangalore</span>
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter leading-tight mb-8">
+                <span class="inline-block py-1.5 px-4 rounded-full bg-white/5 border border-white/10 text-[10px] tracking-[0.2em] uppercase mb-8 text-gray-400 backdrop-blur-md">Bangalore's Finest</span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight leading-tight mb-8 text-white">
                     Doorstep <br>
-                    <span class="text-gradient">Car Wash</span>
+                    <span class="text-gradient">Perfection</span>
                 </h1>
-                <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-                    Floamy delivers a premium doorstep wash focused on the essentials — a gleaming exterior and a fresh interior.
+                <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed tracking-wide">
+                    Experience the ultimate convenience. Premium foam wash and interior care, delivered to your driveway with precision.
                 </p>
-                <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                    <a href="#pricing" class="px-8 py-4 bg-white text-black rounded-full font-medium hover:bg-gray-200 transition-colors w-full md:w-auto">
+                <div class="flex flex-col md:flex-row items-center justify-center gap-5">
+                    <a href="#pricing" class="px-10 py-4 bg-brand-600 text-white rounded-full font-medium text-sm tracking-widest uppercase hover:bg-brand-500 transition-all shadow-[0_0_30px_-10px_rgba(37,99,235,0.5)] w-full md:w-auto">
                         View Pricing
                     </a>
-                    <a href="https://wa.me/919742943270" class="px-8 py-4 border border-white/20 rounded-full font-medium hover:border-brand-400 hover:text-brand-400 transition-colors w-full md:w-auto flex items-center justify-center gap-2 group">
-                        Book via WhatsApp <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    <a href="https://wa.me/919742943270" class="px-10 py-4 border border-white/10 rounded-full font-medium text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors w-full md:w-auto flex items-center justify-center gap-2 group text-gray-300">
+                        WhatsApp <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
             </div>
         </div>
 
         <!-- Scroll Down Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50 text-brand-400">
-            <i data-lucide="chevrons-down" class="w-6 h-6"></i>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-30 text-white">
+            <i data-lucide="arrow-down" class="w-5 h-5"></i>
         </div>
     </section>
 
-    <!-- Infinite Marquee -->
-    <div class="w-full bg-brand-500 text-white py-4 overflow-hidden z-10 relative rotate-1 border-y-4 border-white/10 shadow-2xl">
-        <div class="flex animate-marquee whitespace-nowrap font-display font-bold text-2xl uppercase tracking-tight items-center">
-            <span class="mx-6 flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5"></i> Bangalore</span> • 
-            <span class="mx-6 flex items-center gap-2"><i data-lucide="droplets" class="w-5 h-5"></i> Exterior Foam</span> • 
-            <span class="mx-6 flex items-center gap-2"><i data-lucide="wind" class="w-5 h-5"></i> Interior Vacuum</span> • 
-            <span class="mx-6 flex items-center gap-2"><i data-lucide="check-circle" class="w-5 h-5"></i> On Time</span> • 
-            <span class="mx-6 flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5"></i> Bangalore</span> • 
-            <span class="mx-6 flex items-center gap-2"><i data-lucide="droplets" class="w-5 h-5"></i> Exterior Foam</span> • 
-            <span class="mx-6 flex items-center gap-2"><i data-lucide="wind" class="w-5 h-5"></i> Interior Vacuum</span> • 
-            <span class="mx-6 flex items-center gap-2"><i data-lucide="check-circle" class="w-5 h-5"></i> On Time</span> • 
+    <!-- Fixed Marquee (Straight, Clean, Premium) -->
+    <div class="w-full bg-brand-900/20 backdrop-blur-sm border-y border-white/10 py-5 overflow-hidden z-10 relative">
+        <div class="flex animate-marquee whitespace-nowrap font-display font-semibold text-xl uppercase tracking-[0.15em] items-center text-gray-300">
+            <span class="mx-12 flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Premium Foam</span>
+            <span class="mx-12 text-white/20">|</span> 
+            <span class="mx-12 flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Doorstep Service</span> 
+            <span class="mx-12 text-white/20">|</span>
+            <span class="mx-12 flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Interior Care</span> 
+            <span class="mx-12 text-white/20">|</span>
+            <span class="mx-12 flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Bangalore</span>
+            <span class="mx-12 text-white/20">|</span>
+            <span class="mx-12 flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Premium Foam</span>
+            <span class="mx-12 text-white/20">|</span> 
+            <span class="mx-12 flex items-center gap-3"><i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Doorstep Service</span> 
         </div>
     </div>
 
     <!-- About / Technician Info -->
-    <section class="py-20 bg-dark-800 relative z-10 border-y border-white/5">
+    <section class="py-24 bg-black relative z-10">
         <div class="container mx-auto px-6">
             <div class="max-w-4xl mx-auto text-center reveal">
-                <div class="inline-flex items-center justify-center p-3 rounded-full bg-brand-500/10 text-brand-400 mb-6">
-                    <i data-lucide="wrench" class="w-6 h-6"></i>
+                <div class="inline-flex items-center justify-center p-4 rounded-full border border-white/10 bg-white/5 text-white mb-8">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
                 </div>
-                <h3 class="text-2xl md:text-3xl font-display font-bold mb-4">Hassle-Free Experience</h3>
-                <p class="text-gray-400 text-lg leading-relaxed">
+                <h3 class="text-3xl md:text-4xl font-display font-bold mb-6 text-white tracking-tight">The Hassle-Free Standard</h3>
+                <p class="text-gray-400 text-lg leading-loose font-light">
                     Our foam wash and vacuuming service is clean, precise, and reliably on time. <br class="hidden md:block">
-                    Your technician arrives fully equipped with everything needed, ensuring a smooth, hassle-free experience.
+                    Your technician arrives <span class="text-white font-medium">fully equipped</span> with everything needed, ensuring a smooth experience.
                 </p>
             </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-24 relative z-10">
+    <section id="services" class="py-24 relative z-10 bg-dark-800">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-4xl md:text-5xl font-display font-bold mb-4">What We Offer</h2>
-                <p class="text-gray-400">Focused on the essentials for a perfect daily drive.</p>
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6 text-white">Our Services</h2>
+                <p class="text-gray-500 uppercase tracking-widest text-sm">Essentials for the Daily Drive</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                 <!-- Service 1 -->
-                <div class="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition-all duration-300 reveal delay-100">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 rounded-lg bg-brand-500/20 text-brand-400">
-                            <i data-lucide="droplets" class="w-6 h-6"></i>
+                <div class="group p-10 rounded-none bg-dark-700 border border-white/5 hover:border-brand-500/30 transition-all duration-500 reveal delay-100 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/5 transition-colors duration-500"></div>
+                    <div class="relative z-10 flex items-start gap-6">
+                        <div class="text-brand-500">
+                            <i data-lucide="droplets" class="w-8 h-8"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-display font-bold mb-2">Exterior Foam Wash</h3>
-                            <p class="text-gray-400 text-sm">Thick foam application to lift dirt safely, followed by a high-pressure rinse.</p>
+                            <h3 class="text-xl font-display font-bold mb-3 text-white">Exterior Foam Wash</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed font-light">High-density foam application that encapsulates dirt for a scratch-free finish, followed by a precision high-pressure rinse.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Service 2 -->
-                <div class="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition-all duration-300 reveal delay-200">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 rounded-lg bg-brand-500/20 text-brand-400">
-                            <i data-lucide="wind" class="w-6 h-6"></i>
+                <div class="group p-10 rounded-none bg-dark-700 border border-white/5 hover:border-brand-500/30 transition-all duration-500 reveal delay-200 relative overflow-hidden">
+                     <div class="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/5 transition-colors duration-500"></div>
+                    <div class="relative z-10 flex items-start gap-6">
+                        <div class="text-brand-500">
+                            <i data-lucide="wind" class="w-8 h-8"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-display font-bold mb-2">Interior Vacuuming</h3>
-                            <p class="text-gray-400 text-sm">Removal of dust and debris from seats, mats, and carpets.</p>
+                            <h3 class="text-xl font-display font-bold mb-3 text-white">Interior Vacuuming</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed font-light">Comprehensive dust and debris removal. We cover seats, floor mats, and carpets to restore freshness.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Service 3 -->
-                <div class="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition-all duration-300 reveal delay-300">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 rounded-lg bg-brand-500/20 text-brand-400">
-                            <i data-lucide="disc" class="w-6 h-6"></i>
+                <div class="group p-10 rounded-none bg-dark-700 border border-white/5 hover:border-brand-500/30 transition-all duration-500 reveal delay-300 relative overflow-hidden">
+                     <div class="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/5 transition-colors duration-500"></div>
+                    <div class="relative z-10 flex items-start gap-6">
+                        <div class="text-brand-500">
+                            <i data-lucide="disc" class="w-8 h-8"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-display font-bold mb-2">Tyre & Rim Shine</h3>
-                            <p class="text-gray-400 text-sm">Cleaning rims and dressing tyres for a complete finished look.</p>
+                            <h3 class="text-xl font-display font-bold mb-3 text-white">Tyre & Rim Shine</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed font-light">Deep cleaning of rims to remove brake dust, finished with a premium tyre dressing for a deep black look.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Service 4 -->
-                <div class="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition-all duration-300 reveal delay-300">
-                    <div class="flex items-start gap-4">
-                        <div class="p-3 rounded-lg bg-brand-500/20 text-brand-400">
-                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                <div class="group p-10 rounded-none bg-dark-700 border border-white/5 hover:border-brand-500/30 transition-all duration-500 reveal delay-300 relative overflow-hidden">
+                     <div class="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/5 transition-colors duration-500"></div>
+                    <div class="relative z-10 flex items-start gap-6">
+                        <div class="text-brand-500">
+                            <i data-lucide="sparkles" class="w-8 h-8"></i>
                         </div>
                         <div>
-                            <h3 class="text-xl font-display font-bold mb-2">Basic Interior Wipe-down</h3>
-                            <p class="text-gray-400 text-sm">Wiping down dashboard and console surfaces to remove dust.</p>
+                            <h3 class="text-xl font-display font-bold mb-3 text-white">Interior Wipe-down</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed font-light">Gentle wipe-down of the dashboard, console, and door trims to remove surface dust and fingerprints.</p>
                         </div>
                     </div>
                 </div>
@@ -272,99 +302,96 @@
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="py-24 bg-dark-800 relative z-10">
+    <section id="pricing" class="py-24 bg-black relative z-10">
         <div class="container mx-auto px-6">
             <div class="text-center max-w-3xl mx-auto mb-20 reveal">
-                <h2 class="text-4xl md:text-6xl font-display font-bold">Simple Pricing</h2>
-                <p class="text-gray-400 mt-4">Transparent rates. No hidden charges.</p>
+                <h2 class="text-4xl md:text-6xl font-display font-bold text-white">Pricing</h2>
+                <p class="text-gray-500 mt-4 uppercase tracking-widest text-sm">Transparent. Simple. Premium.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 
                 <!-- Hatchback -->
-                <div class="relative group rounded-2xl bg-dark-900 border border-white/10 overflow-hidden hover:border-brand-500/50 transition-all duration-300 reveal delay-100 flex flex-col">
-                    <div class="h-48 overflow-hidden relative bg-dark-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent z-10 opacity-60"></div>
-                        <!-- Image: Hatchback -->
-                        <img src="hatchback.jpg" alt="Hatchback Foam Wash" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                <div class="glass-card group rounded-none overflow-hidden hover:border-brand-500/50 transition-all duration-500 reveal delay-100 flex flex-col relative">
+                    <div class="h-56 overflow-hidden relative bg-dark-800">
+                        <div class="absolute inset-0 bg-black/20 z-10"></div>
+                        <img src="hatchback.jpg" alt="Hatchback" class="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
                     </div>
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-display font-bold mb-2 text-white">Hatchback</h3>
-                        <div class="text-4xl font-bold text-brand-400 mb-6">₹399</div>
+                    <div class="p-8 flex flex-col flex-grow bg-dark-800/50">
+                        <h3 class="text-xl font-display font-bold mb-2 text-white tracking-wide">Hatchback</h3>
+                        <div class="text-3xl font-light text-white mb-8">₹399</div>
                         
-                        <div class="space-y-4 mb-8 flex-grow">
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Exterior Foam Wash
+                        <div class="space-y-4 mb-8 flex-grow border-t border-white/5 pt-6">
+                            <div class="flex items-center gap-3 text-sm text-gray-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Exterior Foam Wash
                             </div>
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Interior Vacuuming
+                            <div class="flex items-center gap-3 text-sm text-gray-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Interior Vacuuming
                             </div>
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Tyre Shine
+                            <div class="flex items-center gap-3 text-sm text-gray-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Tyre Shine
                             </div>
                         </div>
                         
-                        <a href="https://wa.me/919742943270?text=Hi%2C%20I%20would%20like%20to%20book%20a%20wash%20for%20my%20Hatchback" class="w-full py-3 rounded-xl border border-white/20 text-center font-medium hover:bg-brand-600 hover:border-brand-600 hover:text-white transition-colors">
-                            Book Now
+                        <a href="https://wa.me/919742943270?text=I'd%20like%20to%20book%20a%20wash%20for%20my%20Hatchback" class="w-full py-4 bg-white/5 border border-white/10 text-center text-sm font-medium uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">
+                            Select
                         </a>
                     </div>
                 </div>
 
                 <!-- Sedan -->
-                <div class="relative group rounded-2xl bg-dark-900 border border-brand-500/30 overflow-hidden shadow-lg shadow-brand-900/20 hover:border-brand-400 transition-all duration-300 reveal delay-200 transform md:-translate-y-4 flex flex-col">
-                    <div class="absolute top-0 left-0 right-0 bg-brand-600 text-white text-xs font-bold text-center py-1 tracking-widest uppercase z-20">Most Popular</div>
-                    <div class="h-48 overflow-hidden relative bg-dark-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent z-10 opacity-60"></div>
-                        <!-- Image: Sedan -->
-                        <img src="sedan.jpg" alt="Sedan Foam Wash" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                <div class="glass-card group rounded-none overflow-hidden border-brand-500/30 hover:border-brand-500 transition-all duration-500 reveal delay-200 flex flex-col relative transform md:-translate-y-4 shadow-2xl shadow-black">
+                    <div class="absolute top-0 left-0 right-0 bg-brand-600 text-white text-[10px] font-bold text-center py-1.5 tracking-[0.3em] uppercase z-20">Most Popular</div>
+                    <div class="h-56 overflow-hidden relative bg-dark-800">
+                        <div class="absolute inset-0 bg-black/20 z-10"></div>
+                        <img src="sedan.jpg" alt="Sedan" class="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
                     </div>
-                    <div class="p-8 flex flex-col flex-grow pt-6">
-                        <h3 class="text-2xl font-display font-bold mb-2 text-white">Sedan</h3>
-                        <div class="text-4xl font-bold text-brand-400 mb-6">₹449</div>
+                    <div class="p-8 flex flex-col flex-grow bg-dark-800/50">
+                        <h3 class="text-xl font-display font-bold mb-2 text-white tracking-wide">Sedan</h3>
+                        <div class="text-3xl font-light text-brand-400 mb-8">₹449</div>
                         
-                        <div class="space-y-4 mb-8 flex-grow">
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Exterior Foam Wash
+                        <div class="space-y-4 mb-8 flex-grow border-t border-white/5 pt-6">
+                            <div class="flex items-center gap-3 text-sm text-white">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Exterior Foam Wash
                             </div>
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Interior Vacuuming
+                            <div class="flex items-center gap-3 text-sm text-white">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Interior Vacuuming
                             </div>
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Tyre Shine
+                            <div class="flex items-center gap-3 text-sm text-white">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Tyre Shine
                             </div>
                         </div>
                         
-                        <a href="https://wa.me/919742943270?text=Hi%2C%20I%20would%20like%20to%20book%20a%20wash%20for%20my%20Sedan" class="w-full py-3 rounded-xl bg-brand-600 text-white text-center font-bold hover:bg-brand-500 transition-colors">
-                            Book Now
+                        <a href="https://wa.me/919742943270?text=I'd%20like%20to%20book%20a%20wash%20for%20my%20Sedan" class="w-full py-4 bg-brand-600 text-center text-white text-sm font-medium uppercase tracking-widest hover:bg-brand-500 transition-all duration-300 shadow-lg shadow-brand-900/50">
+                            Select
                         </a>
                     </div>
                 </div>
 
                 <!-- SUV -->
-                <div class="relative group rounded-2xl bg-dark-900 border border-white/10 overflow-hidden hover:border-brand-500/50 transition-all duration-300 reveal delay-300 flex flex-col">
-                    <div class="h-48 overflow-hidden relative bg-dark-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent z-10 opacity-60"></div>
-                         <!-- Image: SUV -->
-                         <img src="suv.jpg" alt="SUV Foam Wash" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                <div class="glass-card group rounded-none overflow-hidden hover:border-brand-500/50 transition-all duration-500 reveal delay-300 flex flex-col relative">
+                    <div class="h-56 overflow-hidden relative bg-dark-800">
+                         <div class="absolute inset-0 bg-black/20 z-10"></div>
+                         <img src="suv.jpg" alt="SUV" class="w-full h-full object-cover opacity-80 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
                     </div>
-                    <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-display font-bold mb-2 text-white">SUV</h3>
-                        <div class="text-4xl font-bold text-brand-400 mb-6">₹499</div>
+                    <div class="p-8 flex flex-col flex-grow bg-dark-800/50">
+                        <h3 class="text-xl font-display font-bold mb-2 text-white tracking-wide">SUV</h3>
+                        <div class="text-3xl font-light text-white mb-8">₹499</div>
                         
-                        <div class="space-y-4 mb-8 flex-grow">
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Exterior Foam Wash
+                        <div class="space-y-4 mb-8 flex-grow border-t border-white/5 pt-6">
+                            <div class="flex items-center gap-3 text-sm text-gray-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Exterior Foam Wash
                             </div>
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Interior Vacuuming
+                            <div class="flex items-center gap-3 text-sm text-gray-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Interior Vacuuming
                             </div>
-                            <div class="flex items-center gap-3 text-sm text-gray-300">
-                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Tyre Shine
+                            <div class="flex items-center gap-3 text-sm text-gray-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> Tyre Shine
                             </div>
                         </div>
                         
-                        <a href="https://wa.me/919742943270?text=Hi%2C%20I%20would%20like%20to%20book%20a%20wash%20for%20my%20SUV" class="w-full py-3 rounded-xl border border-white/20 text-center font-medium hover:bg-brand-600 hover:border-brand-600 hover:text-white transition-colors">
-                            Book Now
+                        <a href="https://wa.me/919742943270?text=I'd%20like%20to%20book%20a%20wash%20for%20my%20SUV" class="w-full py-4 bg-white/5 border border-white/10 text-center text-sm font-medium uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300">
+                            Select
                         </a>
                     </div>
                 </div>
@@ -374,20 +401,20 @@
     </section>
 
     <!-- Contact Section -->
-    <section class="py-24 relative z-10">
+    <section class="py-24 relative z-10 bg-dark-900">
         <div class="container mx-auto px-6">
-            <div class="bg-gradient-to-br from-dark-800 to-dark-900 p-10 md:p-16 rounded-3xl border border-white/10 text-center reveal">
-                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">Book Your Slot Today</h2>
-                <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
-                    We are ready to give your car the shine it deserves. Contact us directly via WhatsApp or Email.
+            <div class="p-10 md:p-16 border border-white/5 bg-dark-800/50 text-center reveal">
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-6 text-white">Ready to Shine?</h2>
+                <p class="text-gray-500 text-lg mb-10 max-w-2xl mx-auto font-light">
+                    Professional care, right at your doorstep. Book now via WhatsApp.
                 </p>
                 
                 <div class="flex flex-col md:flex-row justify-center gap-6">
-                    <a href="https://wa.me/919742943270" class="px-8 py-4 bg-green-600 text-white rounded-xl font-bold text-lg hover:bg-green-500 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-900/20">
-                        <i data-lucide="message-circle" class="w-6 h-6"></i> WhatsApp Us
+                    <a href="https://wa.me/919742943270" class="px-8 py-4 bg-green-700/90 text-white font-bold text-sm uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-900/20">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp
                     </a>
-                    <a href="mailto:support@floamy.in" class="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-xl font-medium text-lg hover:bg-white/10 transition-colors flex items-center justify-center gap-3">
-                        <i data-lucide="mail" class="w-6 h-6"></i> support@floamy.in
+                    <a href="mailto:support@floamy.in" class="px-8 py-4 border border-white/10 text-gray-300 font-medium text-sm uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3">
+                        <i data-lucide="mail" class="w-5 h-5"></i> Email Us
                     </a>
                 </div>
             </div>
@@ -399,20 +426,18 @@
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-start mb-16">
                 <div class="mb-10 md:mb-0">
-                    <a href="#" class="text-3xl font-display font-bold tracking-tighter flex items-center gap-2">
-                        <i data-lucide="droplets" class="text-brand-500 w-6 h-6"></i> FLOAMY
-                    </a>
-                    <p class="text-gray-500 mt-4 max-w-xs">
-                        Premium doorstep car wash services in Bangalore.
+                    <a href="#" class="text-2xl font-display font-bold tracking-wider text-white">FLOAMY</a>
+                    <p class="text-gray-600 mt-4 max-w-xs text-sm leading-relaxed">
+                        Premium doorstep car wash services in Bangalore. <br> Defined by quality and convenience.
                     </p>
                 </div>
-                <div class="flex flex-col gap-4 text-gray-400">
-                    <div><strong class="text-white">Location:</strong> Bangalore, India</div>
-                    <div><strong class="text-white">Contact:</strong> support@floamy.in</div>
+                <div class="flex flex-col gap-4 text-gray-500 text-sm">
+                    <div class="flex items-center gap-2"><span class="w-1 h-1 bg-brand-500 rounded-full"></span> Bangalore, India</div>
+                    <div class="flex items-center gap-2"><span class="w-1 h-1 bg-brand-500 rounded-full"></span> support@floamy.in</div>
                 </div>
             </div>
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="text-gray-600 text-sm">
+            <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-gray-700 text-xs uppercase tracking-widest">
                     &copy; 2023 Floamy. All rights reserved.
                 </div>
             </div>
@@ -423,12 +448,10 @@
         // Initialize Lucide Icons
         lucide.createIcons();
 
-        // ROBUST LOADER: Failsafe timeout to ensure site loads even if images are slow/broken
+        // ROBUST LOADER
         window.addEventListener('load', () => {
             removeLoader();
         });
-
-        // Backup: If window.load takes too long (more than 3 sec), force remove loader
         setTimeout(removeLoader, 3000);
 
         function removeLoader() {
@@ -441,26 +464,21 @@
             }
         }
 
-        // IMAGE DEBUGGER: Helps you see if images are missing
+        // IMAGE DEBUGGER
         document.querySelectorAll('img').forEach(img => {
             img.onerror = function() {
-                this.onerror = null; // prevent infinite loop
-                // Replace broken image with a helpful placeholder
+                this.onerror = null;
                 const parent = this.parentElement;
                 const fileName = this.getAttribute('src');
-                
-                // Create error message container
                 const errorDiv = document.createElement('div');
-                errorDiv.className = "absolute inset-0 flex flex-col items-center justify-center bg-dark-800 border border-red-500/30 p-4 text-center";
+                errorDiv.className = "absolute inset-0 flex flex-col items-center justify-center bg-dark-800 border border-red-900/30 p-4 text-center";
                 errorDiv.innerHTML = `
-                    <i data-lucide="image-off" class="w-8 h-8 text-red-400 mb-2"></i>
-                    <span class="text-xs text-red-300 font-mono">Missing: ${fileName}</span>
-                    <span class="text-[10px] text-gray-500 mt-1">Upload this file to your folder</span>
+                    <i data-lucide="image-off" class="w-8 h-8 text-red-900 mb-2"></i>
+                    <span class="text-[10px] text-red-800 font-mono uppercase tracking-widest">Missing: ${fileName}</span>
                 `;
-                
                 parent.appendChild(errorDiv);
-                lucide.createIcons(); // Re-init icons for the error message
-                this.style.display = 'none'; // Hide broken image icon
+                lucide.createIcons();
+                this.style.display = 'none';
             };
         });
 
@@ -488,11 +506,9 @@
 
         // Scroll Reveal Animation
         const revealElements = document.querySelectorAll('.reveal');
-
         const revealOnScroll = () => {
             const windowHeight = window.innerHeight;
             const elementVisible = 100;
-
             revealElements.forEach((reveal) => {
                 const elementTop = reveal.getBoundingClientRect().top;
                 if (elementTop < windowHeight - elementVisible) {
@@ -500,20 +516,18 @@
                 }
             });
         };
-
         window.addEventListener('scroll', revealOnScroll);
-        // Trigger once on load
         revealOnScroll();
 
-        // Navbar Glass Effect on Scroll
+        // Navbar Glass Effect
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.classList.add('py-2');
+                navbar.classList.add('py-3');
                 navbar.classList.remove('py-4');
             } else {
                 navbar.classList.add('py-4');
-                navbar.classList.remove('py-2');
+                navbar.classList.remove('py-3');
             }
         });
     </script>
