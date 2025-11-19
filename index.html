@@ -20,8 +20,6 @@
             --glass-border: rgba(255, 255, 255, 0.08);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
             --blur-strength: 20px;
-            
-            --scroll-velocity: 0deg; /* For JS Skew Effect */
         }
 
         * {
@@ -33,6 +31,7 @@
 
         html {
             overflow-x: hidden;
+            scroll-behavior: smooth; /* Native smooth scroll is best for stability */
         }
 
         body {
@@ -116,14 +115,6 @@
             transform: rotate(-75deg); 
         }
 
-        /* --- SCROLL WRAPPER FOR SKEW EFFECT --- */
-        #scroll-content {
-            transform-style: preserve-3d;
-            will-change: transform;
-            /* Removed the CSS transition that caused shaking */
-            transform: skewY(var(--scroll-velocity));
-        }
-
         /* --- UTILITIES --- */
         .container {
             max-width: 1200px;
@@ -138,6 +129,11 @@
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
             border-radius: 16px;
+            /* 3D Tilt Setup */
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.1s ease-out; /* Snappy response */
+            will-change: transform;
         }
 
         .btn {
@@ -188,7 +184,8 @@
             text-transform: uppercase;
             letter-spacing: 5px;
             font-weight: 300;
-            mix-blend-mode: difference;
+            /* mix-blend-mode removed for better performance */
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
         .section-title span {
@@ -310,6 +307,15 @@
             border: 1px solid rgba(255,255,255,0.05);
             position: relative;
             z-index: 2;
+            /* Initial state for Reveal */
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .hero-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 1s ease, transform 1s ease;
         }
 
         .hero h1 {
@@ -349,12 +355,11 @@
         .service-card {
             padding: 40px 30px;
             text-align: left;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             background: linear-gradient(145deg, rgba(20,20,20,0.8), rgba(10,10,10,0.9));
         }
 
+        /* Hover effect handled by JS for 3D, simplified CSS hover */
         .service-card:hover {
-            transform: translateY(-15px) scale(1.02);
             border-color: var(--primary-gold);
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
@@ -364,6 +369,7 @@
             margin-bottom: 20px;
             color: var(--primary-gold);
             text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            transform: translateZ(20px); /* Pop out in 3D */
         }
 
         .service-card h3 {
@@ -371,12 +377,14 @@
             font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transform: translateZ(15px);
         }
         
         .service-card p {
             color: var(--text-gray);
             font-size: 0.95rem;
             line-height: 1.6;
+            transform: translateZ(10px);
         }
 
         /* --- PRICING SECTION --- */
@@ -397,13 +405,11 @@
             padding: 50px 40px;
             text-align: center;
             position: relative;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(255,255,255,0.05);
             overflow: hidden;
         }
 
         .pricing-card:hover {
-            transform: translateY(-15px);
             border-color: rgba(255,255,255,0.3);
         }
 
@@ -415,6 +421,7 @@
             background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
             transform: skewX(-25deg);
             transition: left 0.5s;
+            pointer-events: none;
         }
         
         .pricing-card:hover::after {
@@ -425,19 +432,16 @@
         .pricing-card.featured {
             border: 1px solid var(--primary-gold);
             box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
-            transform: scale(1.05);
+            z-index: 1;
         }
         
-        .pricing-card.featured:hover {
-             transform: scale(1.05) translateY(-15px);
-        }
-
         .pricing-card h3 {
             font-size: 1.4rem;
             margin-bottom: 15px;
             color: var(--text-white);
             text-transform: uppercase;
             letter-spacing: 3px;
+            transform: translateZ(20px);
         }
 
         .price {
@@ -447,6 +451,7 @@
             color: var(--primary-gold);
             font-family: 'Didot', serif;
             line-height: 1;
+            transform: translateZ(30px);
         }
 
         .pricing-features {
@@ -455,6 +460,7 @@
             text-align: left;
             border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 30px;
+            transform: translateZ(10px);
         }
 
         .pricing-features li {
@@ -470,6 +476,10 @@
             margin-right: 15px;
             color: var(--primary-gold);
             font-weight: bold;
+        }
+        
+        .pricing-card .btn {
+            transform: translateZ(20px);
         }
 
         /* --- CONTACT SECTION --- */
@@ -540,8 +550,6 @@
             }
             .nav-links.active { display: flex; }
             .mobile-menu-btn { display: block; }
-            .pricing-card.featured { transform: scale(1); }
-            .pricing-card.featured:hover { transform: translateY(-15px); }
         }
 
         /* --- ANIMATIONS --- */
@@ -589,8 +597,8 @@
         <h2 style="position:absolute; bottom: 15%; color: rgba(255,255,255,0.4); font-size: 0.8rem; text-transform:uppercase; letter-spacing: 4px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Cleaning Windshield...</h2>
     </div>
 
-    <!-- Wrapper for Scroll Skew Effect -->
-    <div id="scroll-content">
+    <!-- Main Content (No more scroll wrapper) -->
+    <div>
         
         <!-- Navigation -->
         <nav id="navbar">
@@ -615,7 +623,7 @@
 
         <!-- Hero Section -->
         <header id="home" class="hero">
-            <div class="hero-content glass-card reveal-on-scroll">
+            <div class="hero-content glass-card">
                 <h1>Floamy</h1>
                 <p class="tagline">Precision Doorstep Detailing</p>
                 <a href="https://wa.me/919742943270" class="btn btn-whatsapp">
@@ -756,15 +764,45 @@
         }, 500);
 
 
-        // --- 2. FIXED SMOOTH SCROLL PHYSICS (NO SHAKING) ---
-        const scrollContent = document.getElementById('scroll-content');
+        // --- 2. PREMIUM 3D TILT EFFECT (Replaces shaky scroll) ---
+        // This adds a high-end interactive feel without scroll jank
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -5; // Max rotation deg
+                const rotateY = ((x - centerX) / centerX) * 5;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            });
+        });
+
+
+        // --- 3. SMOOTH PARALLAX BACKGROUND ---
         const parallaxBg = document.getElementById('parallaxBg');
         
-        let currentScroll = 0;
-        let currentSkew = 0;
-        let targetSkew = 0;
+        // Use 'scroll' event directly for background as it's decoupled from content flow
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if(parallaxBg) {
+                // Subtle movement, hardware accelerated
+                parallaxBg.style.transform = `translate3d(0, ${scrollY * 0.2}px, 0)`;
+            }
+        });
 
-        // Standard Scroll Reveal
+
+        // --- 4. UTILS (Menu, Logo, Bubbles) ---
+        
+        // Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -777,39 +815,7 @@
             observer.observe(el);
         });
 
-        // Optimized Loop with Lerp (Linear Interpolation)
-        function scrollLoop() {
-            const newScroll = window.scrollY;
-            
-            // 1. Calculate Velocity
-            const diff = newScroll - currentScroll;
-            
-            // 2. Determine Target Skew (Velocity * Sensitivity)
-            targetSkew = diff * 0.15;
-            
-            // 3. Clamp Skew to prevent extreme distortion
-            targetSkew = Math.min(Math.max(targetSkew, -2), 2); // Reduced max skew for cleaner look
-            
-            // 4. SMOOTHING: Lerp the skew value
-            // Instead of setting skew directly, we move towards it by 10% each frame
-            currentSkew += (targetSkew - currentSkew) * 0.1;
-
-            // 5. Apply
-            document.documentElement.style.setProperty('--scroll-velocity', `${currentSkew.toFixed(3)}deg`);
-
-            // Parallax Background (Smoother hardware accelerated transform)
-            if(parallaxBg) {
-                parallaxBg.style.transform = `translate3d(0, ${newScroll * 0.3}px, 0)`;
-            }
-
-            currentScroll = newScroll;
-            requestAnimationFrame(scrollLoop);
-        }
-        
-        scrollLoop();
-
-
-        // --- 3. UTILS (Menu, Logo, Bubbles) ---
+        // Click Bubbles
         document.addEventListener('click', function(e) {
             if(e.target.closest('a') || e.target.closest('button') || e.target.closest('.logo-container') || e.target.closest('.mobile-menu-btn')) return;
             const bubble = document.createElement('div');
