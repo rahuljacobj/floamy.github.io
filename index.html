@@ -10,17 +10,18 @@
         :root {
             --bg-dark: #050505;
             --bg-panel: #121212;
-            --primary-gold: #D4AF37; /* Metallic Gold */
+            --primary-gold: #D4AF37;
             --primary-gold-dim: #aa8c2c;
-            --accent-blue: #3a7bd5; /* Subtle hint of water */
             --text-white: #ffffff;
             --text-gray: #a0a0a0;
             
             /* Dark Glassmorphism */
-            --glass-bg: rgba(20, 20, 20, 0.7);
+            --glass-bg: rgba(20, 20, 20, 0.6);
             --glass-border: rgba(255, 255, 255, 0.08);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
             --blur-strength: 20px;
+            
+            --scroll-velocity: 0deg; /* For JS Skew Effect */
         }
 
         * {
@@ -31,95 +32,96 @@
         }
 
         html {
-            scroll-behavior: smooth;
-            cursor: crosshair; /* Adds to the "precision" feel */
+            overflow-x: hidden;
         }
 
         body {
             background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(20, 20, 20, 1) 0%, transparent 25%), 
-                radial-gradient(circle at 85% 30%, rgba(30, 30, 30, 1) 0%, transparent 25%);
             min-height: 100vh;
             color: var(--text-white);
             overflow-x: hidden;
             position: relative;
         }
 
-        /* --- INTRO: GRIMY WINDSHIELD --- */
+        /* --- PARALLAX BACKGROUND --- */
+        .parallax-bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(40, 40, 40, 1) 0%, transparent 40%), 
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 30%);
+            z-index: -2;
+            transform: translate3d(0, 0, 0); /* Hardware acceleration */
+            will-change: transform;
+        }
+
+        /* --- INTRO: REAL DIRTY WINDSHIELD --- */
         #intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #1a1a1a; /* Darker grime */
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             pointer-events: none;
-            animation: fadeOutOverlay 0.8s ease-out 2.5s forwards;
+            background-color: #4a4238; 
         }
 
-        /* Grime texture overlay */
         #intro-overlay::before {
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
-            opacity: 0.6;
+            opacity: 0.8;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+        
+        #intro-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(30,25,20,0.6) 0%, transparent 5%),
+                radial-gradient(circle at 70% 60%, rgba(30,25,20,0.5) 0%, transparent 8%),
+                radial-gradient(circle at 40% 80%, rgba(30,25,20,0.7) 0%, transparent 4%);
+            filter: blur(2px);
         }
 
         .wiper-container {
             position: absolute;
-            bottom: -50px;
+            bottom: -100px;
             left: 50%;
-            width: 140vw;
-            height: 140vh;
-            transform-origin: bottom center;
-            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            z-index: 10000;
         }
 
         .wiper-arm {
-            width: 12px;
-            height: 100%;
-            background: #000;
+            width: 14px;
+            height: 130vh;
+            background: #111;
             position: absolute;
             bottom: 0;
-            left: 50%;
+            left: -7px;
             transform-origin: bottom center;
             box-shadow: 4px 0 20px rgba(0,0,0,0.8);
-            border-right: 2px solid #333;
-            animation: wipeAction 2.2s ease-in-out forwards;
-            z-index: 2;
+            border-right: 3px solid #333;
+            transform: rotate(-75deg); 
         }
 
-        @keyframes wipeAction {
-            0% { transform: rotate(-80deg); }
-            50% { transform: rotate(80deg); }
-            100% { transform: rotate(-90deg); opacity: 0; }
-        }
-        @keyframes fadeOutOverlay {
-            to { opacity: 0; visibility: hidden; }
-        }
-
-        /* --- EASTER EGG: CLICK BUBBLES --- */
-        .click-bubble {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: popBubble 1s ease-out forwards;
-            box-shadow: inset 0 0 5px rgba(255,255,255,0.3);
-            z-index: 9998;
-        }
-        @keyframes popBubble {
-            0% { transform: scale(0.5); opacity: 1; }
-            100% { transform: scale(2) translateY(-50px); opacity: 0; }
+        /* --- SCROLL WRAPPER FOR SKEW EFFECT --- */
+        #scroll-content {
+            transform-style: preserve-3d;
+            will-change: transform;
+            /* Removed the CSS transition that caused shaking */
+            transform: skewY(var(--scroll-velocity));
         }
 
         /* --- UTILITIES --- */
@@ -135,13 +137,13 @@
             -webkit-backdrop-filter: blur(var(--blur-strength));
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
-            border-radius: 12px; /* Sharper corners for modern look */
+            border-radius: 16px;
         }
 
         .btn {
             display: inline-block;
             padding: 14px 35px;
-            border-radius: 4px; /* Minimal */
+            border-radius: 4px;
             text-decoration: none;
             font-weight: 700;
             letter-spacing: 1px;
@@ -163,7 +165,7 @@
         .btn-primary:hover {
             background: transparent;
             color: var(--text-white);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
         .btn-whatsapp {
@@ -175,17 +177,18 @@
         .btn-whatsapp:hover {
             background: transparent;
             color: #25D366;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
         }
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
             color: var(--text-white);
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 5px;
             font-weight: 300;
+            mix-blend-mode: difference;
         }
         
         .section-title span {
@@ -205,9 +208,9 @@
         }
         
         nav.scrolled {
-            background: rgba(5, 5, 5, 0.9);
+            background: rgba(5, 5, 5, 0.8);
             backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             padding: 15px 0;
         }
 
@@ -223,6 +226,7 @@
             gap: 12px;
             text-decoration: none;
             cursor: pointer;
+            z-index: 1001;
         }
 
         .logo-img {
@@ -235,7 +239,6 @@
             transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Easter Egg: Spin Logo */
         .logo-img.spin-active {
             transform: rotate(720deg);
         }
@@ -260,10 +263,26 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: color 0.3s;
+            position: relative;
         }
         
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--primary-gold);
+            transition: width 0.3s;
+        }
+
         .nav-links a:hover {
-            color: var(--primary-gold);
+            color: var(--text-white);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .mobile-menu-btn {
@@ -271,6 +290,7 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 1001;
         }
 
         /* --- HERO SECTION --- */
@@ -281,33 +301,28 @@
             justify-content: center;
             text-align: center;
             position: relative;
-        }
-        
-        /* Background car silhouette or luxury texture */
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 60%);
-            z-index: -1;
+            overflow: hidden;
         }
 
         .hero-content {
             padding: 60px;
             max-width: 900px;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 2.8s forwards;
             border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            z-index: 2;
         }
 
         .hero h1 {
-            font-size: 4.5rem;
+            font-size: 5rem;
             color: var(--text-white);
             margin-bottom: 15px;
             line-height: 1;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: -2px;
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .hero .tagline {
@@ -315,13 +330,13 @@
             color: var(--primary-gold);
             margin-bottom: 40px;
             font-weight: 400;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             text-transform: uppercase;
         }
 
         /* --- SERVICES SECTION --- */
         .services {
-            padding: 100px 0;
+            padding: 150px 0;
         }
 
         .services-grid {
@@ -334,148 +349,146 @@
         .service-card {
             padding: 40px 30px;
             text-align: left;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             background: linear-gradient(145deg, rgba(20,20,20,0.8), rgba(10,10,10,0.9));
         }
 
         .service-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-15px) scale(1.02);
             border-color: var(--primary-gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
         .service-icon {
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
             color: var(--primary-gold);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
         .service-card h3 {
             margin-bottom: 10px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         
         .service-card p {
             color: var(--text-gray);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             line-height: 1.6;
         }
 
         /* --- PRICING SECTION --- */
         .pricing {
-            padding: 100px 0;
+            padding: 150px 0;
             position: relative;
         }
 
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            gap: 40px;
             margin-top: 50px;
-            align-items: flex-start;
+            align-items: center;
         }
 
         .pricing-card {
-            padding: 40px;
+            padding: 50px 40px;
             text-align: center;
             position: relative;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(255,255,255,0.05);
             overflow: hidden;
         }
 
-        /* Easter Egg: Headlight Glow on Hover */
-        .pricing-card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.5s ease;
-            pointer-events: none;
+        .pricing-card:hover {
+            transform: translateY(-15px);
+            border-color: rgba(255,255,255,0.3);
         }
 
-        .pricing-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        /* Cinematic Glow Effect */
+        .pricing-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.5s;
         }
         
-        .pricing-card:hover::before {
-            opacity: 1;
-            transform: scale(1);
+        .pricing-card:hover::after {
+            left: 150%;
+            transition: left 0.7s ease-in-out;
         }
 
         .pricing-card.featured {
             border: 1px solid var(--primary-gold);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured:hover {
+             transform: scale(1.05) translateY(-15px);
         }
 
         .pricing-card h3 {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             margin-bottom: 15px;
             color: var(--text-white);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
         .price {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
             margin: 20px 0;
             color: var(--primary-gold);
-            font-family: 'Didot', serif; /* Premium font for numbers */
-        }
-
-        .price span {
-            font-size: 1rem;
-            font-weight: 400;
-            color: var(--text-gray);
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Didot', serif;
+            line-height: 1;
         }
 
         .pricing-features {
             list-style: none;
-            margin: 30px 0;
+            margin: 40px 0;
             text-align: left;
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 20px;
+            padding-top: 30px;
         }
 
         .pricing-features li {
-            padding: 8px 0;
+            padding: 10px 0;
             display: flex;
             align-items: center;
             color: var(--text-gray);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .pricing-features li::before {
             content: "✓";
-            margin-right: 10px;
+            margin-right: 15px;
             color: var(--primary-gold);
             font-weight: bold;
         }
 
         /* --- CONTACT SECTION --- */
         .contact {
-            padding: 100px 0;
+            padding: 150px 0;
             margin-bottom: 40px;
         }
 
         .contact-box {
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 60px;
+            padding: 80px;
             text-align: center;
             background: linear-gradient(180deg, rgba(20,20,20,0.9), rgba(10,10,10,1));
         }
 
         .contact-item {
             margin: 20px 0;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -487,10 +500,12 @@
             color: var(--text-white);
             text-decoration: none;
             transition: color 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
         
         .contact-item a:hover {
             color: var(--primary-gold);
+            border-color: var(--primary-gold);
         }
 
         /* --- FOOTER --- */
@@ -498,7 +513,7 @@
             background: #000;
             color: var(--text-gray);
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             border-top: 1px solid rgba(255,255,255,0.05);
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -511,238 +526,323 @@
             .hero-content { padding: 30px 20px; }
             .nav-links {
                 display: none;
-                position: absolute;
-                top: 75px;
+                position: fixed;
+                top: 0;
                 left: 0;
                 width: 100%;
-                background: rgba(10,10,10,0.95);
-                backdrop-filter: blur(20px);
+                height: 100vh;
+                background: rgba(5,5,5,0.98);
                 flex-direction: column;
-                padding: 30px;
+                padding: 100px 30px;
                 text-align: center;
-                gap: 25px;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
+                gap: 30px;
+                z-index: 1000;
             }
             .nav-links.active { display: flex; }
             .mobile-menu-btn { display: block; }
+            .pricing-card.featured { transform: scale(1); }
+            .pricing-card.featured:hover { transform: translateY(-15px); }
         }
 
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
+        /* --- ANIMATIONS --- */
         .reveal-on-scroll {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+            filter: blur(15px);
+            transform: translateY(60px) scale(0.95);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         .reveal-on-scroll.visible {
             opacity: 1;
-            transform: translateY(0);
+            filter: blur(0);
+            transform: translateY(0) scale(1);
+        }
+        
+        .click-bubble {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: popBubble 1s ease-out forwards;
+            box-shadow: inset 0 0 5px rgba(255,255,255,0.3);
+            z-index: 9998;
+        }
+        @keyframes popBubble {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2) translateY(-50px); opacity: 0; }
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Intro Overlay -->
+    <!-- Parallax Background Layer -->
+    <div class="parallax-bg" id="parallaxBg"></div>
+
+    <!-- Dirty Windshield Intro -->
     <div id="intro-overlay">
         <div class="wiper-container">
-            <div class="wiper-arm"></div>
+            <div class="wiper-arm" id="wiper"></div>
         </div>
-        <h2 style="position:absolute; bottom: 10%; color: rgba(255,255,255,0.3); font-size: 0.8rem; text-transform:uppercase; letter-spacing: 5px;">Initializing Wash Sequence...</h2>
+        <h2 style="position:absolute; bottom: 15%; color: rgba(255,255,255,0.4); font-size: 0.8rem; text-transform:uppercase; letter-spacing: 4px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">Cleaning Windshield...</h2>
     </div>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <div class="container nav-content">
-            <div class="logo-container" onclick="spinLogo()">
-                <img src="logo.png" onerror="this.src='https://ui-avatars.com/api/?name=F&background=000&color=D4AF37&font-size=0.7'" alt="Floamy Logo" class="logo-img" id="logoImg">
-                <span class="logo-text">Floamy</span>
-            </div>
-            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
-            <div class="nav-links" id="navLinks">
-                <a href="#home" onclick="toggleMenu()">Home</a>
-                <a href="#services" onclick="toggleMenu()">Services</a>
-                <a href="#pricing" onclick="toggleMenu()">Pricing</a>
-                <a href="#contact" onclick="toggleMenu()">Contact</a>
-                <a href="https://wa.me/919742943270" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.7rem;">Book Now</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header id="home" class="hero">
-        <div class="hero-content glass-card">
-            <h1>Floamy</h1>
-            <p class="tagline">Precision Doorstep Detailing</p>
-            <a href="https://wa.me/919742943270" class="btn btn-whatsapp">
-                WhatsApp Booking
-            </a>
-        </div>
-    </header>
-
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title reveal-on-scroll">Our <span>Standard</span></h2>
-            <p style="text-align: center; color: var(--text-gray); max-width: 600px; margin: 0 auto;" class="reveal-on-scroll">Every wash includes our premium 4-step process.</p>
-            <div class="services-grid">
-                <div class="service-card glass-card reveal-on-scroll">
-                    <div class="service-icon">🫧</div>
-                    <h3>Exterior Foam Wash</h3>
-                    <p>pH-neutral snow foam that lifts dirt without scratching paintwork.</p>
+    <!-- Wrapper for Scroll Skew Effect -->
+    <div id="scroll-content">
+        
+        <!-- Navigation -->
+        <nav id="navbar">
+            <div class="container nav-content">
+                <div class="logo-container" onclick="spinLogo()">
+                    <img src="logo.png" onerror="this.src='https://ui-avatars.com/api/?name=F&background=000&color=D4AF37&font-size=0.7'" alt="Floamy Logo" class="logo-img" id="logoImg">
+                    <span class="logo-text">Floamy</span>
                 </div>
-                <div class="service-card glass-card reveal-on-scroll">
-                    <div class="service-icon">⚡</div>
-                    <h3>Interior Vacuum</h3>
-                    <p>High-power suction for upholstery, crevices, and floor areas.</p>
-                </div>
-                <div class="service-card glass-card reveal-on-scroll">
-                    <div class="service-icon">🛡️</div>
-                    <h3>Mat Cleaning</h3>
-                    <p>Deep cleaning and restoration of rubber or fabric floor mats.</p>
-                </div>
-                <div class="service-card glass-card reveal-on-scroll">
-                    <div class="service-icon">🛞</div>
-                    <h3>Tyre Dressing</h3>
-                    <p>Premium satin-finish dressing for long-lasting tyre protection.</p>
+                <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+                <div class="nav-links" id="navLinks">
+                    <!-- Close button for mobile -->
+                    <div style="position: absolute; top: 30px; right: 30px; font-size: 2rem; cursor: pointer; display: none;" onclick="toggleMenu()" class="mobile-close-btn">✕</div>
+                    
+                    <a href="#home" onclick="toggleMenu()">Home</a>
+                    <a href="#services" onclick="toggleMenu()">Services</a>
+                    <a href="#pricing" onclick="toggleMenu()">Pricing</a>
+                    <a href="#contact" onclick="toggleMenu()">Contact</a>
+                    <a href="https://wa.me/919742943270" class="btn btn-primary" style="padding: 10px 25px; font-size: 0.7rem;">Book Now</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </nav>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
-        <div class="container">
-            <h2 class="section-title reveal-on-scroll">Select <span>Class</span></h2>
-            <div class="pricing-grid">
-                <!-- Hatchback -->
-                <div class="pricing-card glass-card reveal-on-scroll">
-                    <h3>Hatchback</h3>
-                    <div class="price">399</div>
-                    <ul class="pricing-features">
-                        <li>Exterior Foam Wash</li>
-                        <li>Interior Vacuum</li>
-                        <li>Mat Cleaning</li>
-                        <li>Tyre Dressing</li>
-                    </ul>
-                    <a href="https://wa.me/919742943270?text=Booking: Hatchback - 399" class="btn btn-primary">Select</a>
-                </div>
+        <!-- Hero Section -->
+        <header id="home" class="hero">
+            <div class="hero-content glass-card reveal-on-scroll">
+                <h1>Floamy</h1>
+                <p class="tagline">Precision Doorstep Detailing</p>
+                <a href="https://wa.me/919742943270" class="btn btn-whatsapp">
+                    WhatsApp Booking
+                </a>
+            </div>
+        </header>
 
-                <!-- Sedan (Featured) -->
-                <div class="pricing-card featured glass-card reveal-on-scroll">
-                    <div style="position:absolute; top:0; right:0; background:var(--primary-gold); color:black; font-size:0.7rem; padding:5px 10px; font-weight:bold;">POPULAR</div>
-                    <h3>Sedan</h3>
-                    <div class="price">449</div>
-                    <ul class="pricing-features">
-                        <li>Exterior Foam Wash</li>
-                        <li>Interior Vacuum</li>
-                        <li>Mat Cleaning</li>
-                        <li>Tyre Dressing</li>
-                    </ul>
-                    <a href="https://wa.me/919742943270?text=Booking: Sedan - 449" class="btn btn-primary" style="background: var(--primary-gold); border-color: var(--primary-gold); color: black;">Select</a>
-                </div>
-
-                <!-- SUV -->
-                <div class="pricing-card glass-card reveal-on-scroll">
-                    <h3>SUV / MUV</h3>
-                    <div class="price">499</div>
-                    <ul class="pricing-features">
-                        <li>Exterior Foam Wash</li>
-                        <li>Interior Vacuum</li>
-                        <li>Mat Cleaning</li>
-                        <li>Tyre Dressing</li>
-                    </ul>
-                    <a href="https://wa.me/919742943270?text=Booking: SUV - 499" class="btn btn-primary">Select</a>
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title reveal-on-scroll">Our <span>Standard</span></h2>
+                <p style="text-align: center; color: var(--text-gray); max-width: 600px; margin: 0 auto; letter-spacing: 1px;" class="reveal-on-scroll">Bangalore's finest 4-step restoration process.</p>
+                <div class="services-grid">
+                    <div class="service-card glass-card reveal-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="service-icon">🫧</div>
+                        <h3>Exterior Foam Wash</h3>
+                        <p>pH-neutral thick snow foam that safely lifts road grime and dust without swirling the paint.</p>
+                    </div>
+                    <div class="service-card glass-card reveal-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="service-icon">⚡</div>
+                        <h3>Interior Vacuum</h3>
+                        <p>High-power industrial suction for upholstery, crevices, dashboard, and floor carpet areas.</p>
+                    </div>
+                    <div class="service-card glass-card reveal-on-scroll" style="transition-delay: 0.3s;">
+                        <div class="service-icon">🛡️</div>
+                        <h3>Mat Cleaning</h3>
+                        <p>Complete deep cleaning, scrubbing, and restoration of rubber or fabric floor mats.</p>
+                    </div>
+                    <div class="service-card glass-card reveal-on-scroll" style="transition-delay: 0.4s;">
+                        <div class="service-icon">🛞</div>
+                        <h3>Tyre Dressing</h3>
+                        <p>Premium non-greasy satin finish dressing for long-lasting tyre protection and shine.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title reveal-on-scroll">Start <span>Booking</span></h2>
-            <div class="contact-box glass-card reveal-on-scroll">
-                <p style="color: var(--text-gray); margin-bottom: 30px;">Bangalore's most trusted doorstep detailers.</p>
-                <div class="contact-item">
-                    <span>📞</span> <a href="https://wa.me/919742943270">+91 97429 43270</a>
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing">
+            <div class="container">
+                <h2 class="section-title reveal-on-scroll">Select <span>Class</span></h2>
+                <div class="pricing-grid">
+                    <!-- Hatchback -->
+                    <div class="pricing-card glass-card reveal-on-scroll" style="transition-delay: 0.1s;">
+                        <h3>Hatchback</h3>
+                        <div class="price">399</div>
+                        <ul class="pricing-features">
+                            <li>Exterior Foam Wash</li>
+                            <li>Interior Vacuum</li>
+                            <li>Mat Cleaning</li>
+                            <li>Tyre Dressing</li>
+                        </ul>
+                        <a href="https://wa.me/919742943270?text=Booking: Hatchback - 399" class="btn btn-primary">Select</a>
+                    </div>
+
+                    <!-- Sedan (Featured) -->
+                    <div class="pricing-card featured glass-card reveal-on-scroll" style="transition-delay: 0.2s;">
+                        <div style="position:absolute; top:0; right:0; background:var(--primary-gold); color:black; font-size:0.7rem; padding:8px 15px; font-weight:800; letter-spacing:1px;">POPULAR</div>
+                        <h3>Sedan</h3>
+                        <div class="price">449</div>
+                        <ul class="pricing-features">
+                            <li>Exterior Foam Wash</li>
+                            <li>Interior Vacuum</li>
+                            <li>Mat Cleaning</li>
+                            <li>Tyre Dressing</li>
+                        </ul>
+                        <a href="https://wa.me/919742943270?text=Booking: Sedan - 449" class="btn btn-primary" style="background: var(--primary-gold); border-color: var(--primary-gold); color: black;">Select</a>
+                    </div>
+
+                    <!-- SUV -->
+                    <div class="pricing-card glass-card reveal-on-scroll" style="transition-delay: 0.3s;">
+                        <h3>SUV / MUV</h3>
+                        <div class="price">499</div>
+                        <ul class="pricing-features">
+                            <li>Exterior Foam Wash</li>
+                            <li>Interior Vacuum</li>
+                            <li>Mat Cleaning</li>
+                            <li>Tyre Dressing</li>
+                        </ul>
+                        <a href="https://wa.me/919742943270?text=Booking: SUV - 499" class="btn btn-primary">Select</a>
+                    </div>
                 </div>
-                <div class="contact-item">
-                    <span>✉️</span> <a href="mailto:support@floamy.in">support@floamy.in</a>
-                </div>
-                <br>
-                <a href="https://wa.me/919742943270" class="btn btn-whatsapp">Chat on WhatsApp</a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Floamy Car Wash. Bangalore.</p>
-    </footer>
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title reveal-on-scroll">Start <span>Booking</span></h2>
+                <div class="contact-box glass-card reveal-on-scroll">
+                    <p style="color: var(--text-gray); margin-bottom: 30px; font-size: 1.1rem;">Bangalore's most trusted doorstep detailers.</p>
+                    <div class="contact-item">
+                        <span>📞</span> <a href="https://wa.me/919742943270">+91 97429 43270</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>✉️</span> <a href="mailto:support@floamy.in">support@floamy.in</a>
+                    </div>
+                    <br>
+                    <a href="https://wa.me/919742943270" class="btn btn-whatsapp">Chat on WhatsApp</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Floamy Car Wash. Bangalore.</p>
+        </footer>
+    </div>
 
     <script>
-        // 1. Easter Egg: Click Bubbles
-        document.addEventListener('click', function(e) {
-            // Don't spawn bubbles if clicking buttons/links
-            if(e.target.closest('a') || e.target.closest('button')) return;
+        // --- 1. REAL WIPER EFFECT LOGIC ---
+        const overlay = document.getElementById('intro-overlay');
+        const wiper = document.getElementById('wiper');
+        let startTime = null;
+        const duration = 2500; 
 
-            const bubble = document.createElement('div');
-            bubble.classList.add('click-bubble');
-            bubble.style.left = e.pageX + 'px';
-            bubble.style.top = e.pageY + 'px';
-            document.body.appendChild(bubble);
-            
-            setTimeout(() => {
-                bubble.remove();
-            }, 1000);
-        });
+        function animateWiper(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = (timestamp - startTime) / duration;
 
-        // 2. Easter Egg: Spin Logo
-        function spinLogo() {
-            const logo = document.getElementById('logoImg');
-            logo.classList.add('spin-active');
-            setTimeout(() => {
-                logo.classList.remove('spin-active');
-            }, 1000);
-        }
+            if (progress <= 1) {
+                const angle = -75 + (progress * 155); 
+                wiper.style.transform = `rotate(${angle}deg)`;
+                const maskAngle = angle + 90; 
+                overlay.style.maskImage = `conic-gradient(from ${maskAngle}deg at 50% 100%, black 0deg, black 300deg, transparent 360deg)`;
+                overlay.style.webkitMaskImage = `conic-gradient(from ${maskAngle}deg at 50% 100%, black 0deg, black 300deg, transparent 360deg)`;
 
-        // 3. Navbar Scroll Effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+                requestAnimationFrame(animateWiper);
             } else {
-                navbar.classList.remove('scrolled');
+                overlay.style.display = 'none';
+                document.querySelector('.hero-content').classList.add('visible');
             }
-        });
-
-        // 4. Mobile Menu Toggle
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
         }
 
-        // 5. Scroll Reveal Animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
+        setTimeout(() => {
+            requestAnimationFrame(animateWiper);
+        }, 500);
 
+
+        // --- 2. FIXED SMOOTH SCROLL PHYSICS (NO SHAKING) ---
+        const scrollContent = document.getElementById('scroll-content');
+        const parallaxBg = document.getElementById('parallaxBg');
+        
+        let currentScroll = 0;
+        let currentSkew = 0;
+        let targetSkew = 0;
+
+        // Standard Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
         document.querySelectorAll('.reveal-on-scroll').forEach(el => {
             observer.observe(el);
         });
+
+        // Optimized Loop with Lerp (Linear Interpolation)
+        function scrollLoop() {
+            const newScroll = window.scrollY;
+            
+            // 1. Calculate Velocity
+            const diff = newScroll - currentScroll;
+            
+            // 2. Determine Target Skew (Velocity * Sensitivity)
+            targetSkew = diff * 0.15;
+            
+            // 3. Clamp Skew to prevent extreme distortion
+            targetSkew = Math.min(Math.max(targetSkew, -2), 2); // Reduced max skew for cleaner look
+            
+            // 4. SMOOTHING: Lerp the skew value
+            // Instead of setting skew directly, we move towards it by 10% each frame
+            currentSkew += (targetSkew - currentSkew) * 0.1;
+
+            // 5. Apply
+            document.documentElement.style.setProperty('--scroll-velocity', `${currentSkew.toFixed(3)}deg`);
+
+            // Parallax Background (Smoother hardware accelerated transform)
+            if(parallaxBg) {
+                parallaxBg.style.transform = `translate3d(0, ${newScroll * 0.3}px, 0)`;
+            }
+
+            currentScroll = newScroll;
+            requestAnimationFrame(scrollLoop);
+        }
+        
+        scrollLoop();
+
+
+        // --- 3. UTILS (Menu, Logo, Bubbles) ---
+        document.addEventListener('click', function(e) {
+            if(e.target.closest('a') || e.target.closest('button') || e.target.closest('.logo-container') || e.target.closest('.mobile-menu-btn')) return;
+            const bubble = document.createElement('div');
+            bubble.classList.add('click-bubble');
+            bubble.style.left = e.pageX + 'px';
+            bubble.style.top = e.pageY + 'px';
+            document.body.appendChild(bubble);
+            setTimeout(() => bubble.remove(), 1000);
+        });
+
+        function spinLogo() {
+            const logo = document.getElementById('logoImg');
+            logo.classList.add('spin-active');
+            setTimeout(() => logo.classList.remove('spin-active'), 1000);
+        }
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const closeBtn = document.querySelector('.mobile-close-btn');
+            navLinks.classList.toggle('active');
+            
+            if (navLinks.classList.contains('active')) {
+               if(closeBtn) closeBtn.style.display = 'block';
+            } else {
+               if(closeBtn) closeBtn.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
