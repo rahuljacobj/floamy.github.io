@@ -1,730 +1,520 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floamy | Premium Doorstep Car Care</title>
-    <meta name="description" content="Premium doorstep car wash service in Bangalore. Showroom shine at your door.">
+    <title>Floamy | Doorstep Car Wash Bangalore</title>
+    <meta name="description" content="Floamy delivers a premium doorstep wash focused on the essentials. Serving Bangalore.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Syne for headings, Inter for body -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            400: '#38bdf8', 
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        dark: {
+                            900: '#050505', 
+                            800: '#0a0a0a',
+                            700: '#171717',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* --- CSS VARIABLES & RESET --- */
-        :root {
-            --bg-dark: #000000;
-            --primary-gold: #D4AF37;
-            --whatsapp-green: #00E676;
-            --text-white: #ffffff;
-            --glass-bg: rgba(20, 20, 20, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.1);
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0ea5e9;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        html {
-            scroll-behavior: smooth;
+        /* Gradient Text Utility */
+        .text-gradient {
+            background: linear-gradient(to right, #fff, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        body {
-            background-color: var(--bg-dark);
-            min-height: 100vh;
-            color: var(--text-white);
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* --- BACKGROUND --- */
-        .bg-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background-image: url('https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.4) contrast(1.1);
-        }
-
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, #000000 90%);
-        }
-
-        /* --- INTRO: DIRTY OVERLAY --- */
-        #intro-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #3e3a32; 
-            mask-image: none;
-            -webkit-mask-image: none;
+        /* Loader */
+        #loader {
             transition: opacity 0.5s ease;
-        }
-
-        /* Grime Texture */
-        #intro-container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0.6;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
-            mix-blend-mode: overlay;
-        }
-        
-        /* Loading Text */
-        .loading-text {
-            position: absolute;
-            z-index: 10001;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2rem;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            font-weight: 800;
-            animation: pulse 1.5s infinite ease-in-out;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.8);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        /* The Linear Squeegee Mechanism */
-        .wiper-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10000;
-            pointer-events: none; 
-        }
-
-        .wiper-blade {
-            width: 12px; 
-            height: 100vh; 
-            background: #111;
-            position: absolute;
-            top: 0;
-            left: 0; 
-            box-shadow: 10px 0 30px rgba(0,0,0,0.8); 
-            transform: translateX(-20px); 
-            border-left: 4px solid #444; 
-            border-right: 1px solid #000;
-        }
-        
-        .wiper-blade::after {
-            content: '';
-            position: absolute;
-            top: 0; 
-            right: -4px; 
-            width: 4px;
-            height: 100%;
-            background: rgba(255,255,255,0.3); 
-        }
-
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 30px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        nav.scrolled {
-            padding: 15px 40px;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .logo-circle {
-            width: 50px;
-            height: 50px;
-            border: 2px solid var(--primary-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            font-weight: 400;
-            color: var(--primary-gold);
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .logo-text {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--text-white);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .menu-trigger {
-            font-size: 2rem;
-            color: white;
-            cursor: pointer;
-        }
-
-        /* --- MENU OVERLAY --- */
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1001;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: right 0.4s ease-in-out;
-        }
-        
-        .menu-overlay.active {
-            right: 0;
-        }
-
-        .menu-overlay a {
-            color: white;
-            font-size: 2rem;
-            text-decoration: none;
-            margin: 20px 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 300;
-            transition: color 0.3s;
-        }
-        
-        .menu-overlay a:hover {
-            color: var(--primary-gold);
-        }
-
-        .menu-close {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            font-size: 3rem;
-            cursor: pointer;
-            color: white;
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-            position: relative; /* For positioning scroll hint */
-        }
-
-        .hero-content {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        
-        .hero-content.visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 1s ease;
-        }
-
-        .hero h1 {
-            font-size: 5rem;
-            color: var(--text-white);
-            margin: 0;
-            line-height: 1;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .hero .tagline {
-            font-size: 1.1rem;
-            color: var(--primary-gold);
-            margin-top: 15px;
-            margin-bottom: 60px;
-            font-weight: 600;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-        }
-
-        .btn-hero {
-            background-color: var(--whatsapp-green);
-            color: #000000;
-            padding: 18px 40px;
-            font-size: 1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 20px rgba(0, 230, 118, 0.3);
-        }
-        
-        .btn-hero:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 30px rgba(0, 230, 118, 0.5);
-            background-color: #00c853;
-        }
-
-        /* --- SCROLL HINT (SOAP BUBBLE) --- */
-        .scroll-hint {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            cursor: pointer;
-            opacity: 0;
-            animation: fadeInHint 1s ease forwards 3s;
-            z-index: 20;
-        }
-
-        .scroll-bubble {
-            width: 44px;
-            height: 44px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 
-                inset 0 0 10px rgba(255, 255, 255, 0.1),
-                0 0 15px rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: floatBubble 3s ease-in-out infinite;
-            backdrop-filter: blur(2px);
-        }
-
-        .scroll-arrow {
-            width: 10px;
-            height: 10px;
-            border-right: 2px solid var(--primary-gold);
-            border-bottom: 2px solid var(--primary-gold);
-            transform: rotate(45deg) translateY(-2px);
-            opacity: 0.9;
-        }
-
-        @keyframes floatBubble {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(10px); }
-        }
-
-        @keyframes fadeInHint {
-            to { opacity: 1; }
-        }
-
-        /* --- CARDS --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: white;
-            margin-bottom: 60px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        .glass-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            padding: 40px;
-            transition: transform 0.3s;
-        }
-        
-        .glass-card:hover {
-            border-color: var(--primary-gold);
-        }
-
-        /* --- SERVICES --- */
-        .services {
-            padding: 100px 0;
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .service-icon {
-            font-size: 2.5rem;
-            color: var(--primary-gold);
-            margin-bottom: 20px;
-        }
-        
-        .service-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* --- PRICING --- */
-        .pricing {
-            padding: 100px 0;
-        }
-        
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .price {
-            font-size: 3.5rem;
-            color: var(--primary-gold);
-            font-weight: 700;
-            margin: 20px 0;
-        }
-
-        .pricing-features li {
-            list-style: none;
-            padding: 10px 0;
-            color: #ccc;
-            display: flex;
-            align-items: center;
-        }
-        
-        .pricing-features li::before {
-            content: '✓';
-            color: var(--whatsapp-green);
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        .btn-outline {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            border: 1px solid white;
-            color: white;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-        
-        .btn-outline:hover {
-            background: white;
-            color: black;
-        }
-        
-        /* --- CONTACT --- */
-        .contact {
-            padding: 100px 0;
-            text-align: center;
-        }
-        
-        .contact-box {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .contact-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            font-size: 1.2rem;
-            text-decoration: none;
-            color: white;
-            transition: color 0.3s;
-        }
-        
-        .contact-link:hover {
-            color: var(--primary-gold);
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 3.5rem; }
-            .hero .tagline { font-size: 0.9rem; letter-spacing: 3px; }
-            .btn-hero { padding: 15px 30px; font-size: 0.9rem; }
-            nav { padding: 20px; }
-        }
-
-        /* Reveal Animation Class */
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-        .reveal-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
-<body>
+<body class="bg-dark-900 text-white font-sans overflow-x-hidden selection:bg-brand-500 selection:text-white">
 
-    <!-- 1. Background -->
-    <div class="bg-image"></div>
-    <div class="bg-overlay"></div>
-
-    <!-- 2. Muddy Windshield Intro with Loading Text -->
-    <div id="intro-container">
-        <div class="loading-text">CLEANING...</div>
-        <div class="wiper-container">
-            <div class="wiper-blade" id="wiper"></div>
+    <!-- Loading Screen -->
+    <div id="loader" class="fixed inset-0 bg-dark-900 z-[60] flex items-center justify-center">
+        <div class="text-center">
+            <div class="font-display text-4xl font-bold tracking-tighter animate-bounce text-brand-400">FLOAMY</div>
+            <div class="text-sm text-gray-500 mt-2">Loading...</div>
         </div>
     </div>
 
-    <!-- 3. Navigation -->
-    <nav id="navbar">
-        <div class="logo-container" onclick="window.scrollTo(0,0)">
-            <div class="logo-circle">F</div>
-            <span class="logo-text">FLOAMY</span>
+    <!-- Background Blobs (Bubbles Effect) -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-600 rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-blob"></div>
+        <div class="absolute top-1/3 right-1/4 w-80 h-80 bg-cyan-500 rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[100px] opacity-10 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-dark-900/80 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-display font-bold tracking-tighter z-50 relative flex items-center gap-2">
+                <i data-lucide="droplets" class="text-brand-500 w-6 h-6"></i>
+                FLOAMY
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#services" class="text-sm hover:text-brand-400 transition-colors">Services</a>
+                <a href="#pricing" class="text-sm hover:text-brand-400 transition-colors">Pricing</a>
+                <a href="https://wa.me/919742943270" class="px-6 py-2 bg-brand-600 rounded-full text-sm font-medium hover:bg-brand-500 transition-all duration-300 shadow-lg shadow-brand-500/20 flex items-center gap-2">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp Us
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden z-50 focus:outline-none">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
         </div>
-        <div class="menu-trigger" onclick="toggleMenu()">☰</div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-dark-900 z-40 flex flex-col items-center justify-center space-y-8 text-2xl font-display transform translate-x-full transition-transform duration-300">
+            <a href="#services" class="mobile-link">Services</a>
+            <a href="#pricing" class="mobile-link">Pricing</a>
+            <a href="https://wa.me/919742943270" class="text-brand-400 mobile-link font-bold flex items-center gap-2"><i data-lucide="message-circle" class="w-6 h-6"></i> WhatsApp Us</a>
+        </div>
     </nav>
 
-    <!-- Fullscreen Menu -->
-    <div class="menu-overlay" id="menuOverlay">
-        <div class="menu-close" onclick="toggleMenu()">✕</div>
-        <a href="#home" onclick="toggleMenu()">Home</a>
-        <a href="#services" onclick="toggleMenu()">Services</a>
-        <a href="#pricing" onclick="toggleMenu()">Pricing</a>
-        <a href="#contact" onclick="toggleMenu()">Contact</a>
-    </div>
-
-    <!-- 4. Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>FLOAMY</h1>
-            <p class="tagline">PRECISION DOORSTEP DETAILING</p>
-            <a href="https://wa.me/919742943270" class="btn-hero">
-                WHATSAPP BOOKING
-            </a>
-        </div>
-        
-        <!-- SCROLL INDICATOR (Floamy Bubble) -->
-        <div class="scroll-hint" onclick="document.getElementById('about').scrollIntoView()">
-            <div class="scroll-bubble">
-                <div class="scroll-arrow"></div>
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 z-10">
+        <div class="container mx-auto px-6 text-center">
+            <div class="reveal">
+                <span class="inline-block py-1 px-3 rounded-full bg-brand-900/50 border border-brand-500/30 text-xs tracking-widest uppercase mb-6 text-brand-400">Serving Bangalore</span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter leading-tight mb-8">
+                    Doorstep <br>
+                    <span class="text-gradient">Car Wash</span>
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+                    Floamy delivers a premium doorstep wash focused on the essentials — a gleaming exterior and a fresh interior.
+                </p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                    <a href="#pricing" class="px-8 py-4 bg-white text-black rounded-full font-medium hover:bg-gray-200 transition-colors w-full md:w-auto">
+                        View Pricing
+                    </a>
+                    <a href="https://wa.me/919742943270" class="px-8 py-4 border border-white/20 rounded-full font-medium hover:border-brand-400 hover:text-brand-400 transition-colors w-full md:w-auto flex items-center justify-center gap-2 group">
+                        Book via WhatsApp <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
             </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50 text-brand-400">
+            <i data-lucide="chevrons-down" class="w-6 h-6"></i>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" style="padding: 100px 20px; position: relative; z-index: 1;">
-        <div class="container reveal-on-scroll">
-            <div class="glass-card" style="max-width: 800px; margin: 0 auto; text-align: center;">
-                <p style="font-size: 1.5rem; line-height: 1.6; color: #fff; margin-bottom: 25px; font-weight: 300;">
-                    <span style="color: var(--primary-gold); font-weight: 600;">Floamy</span> brings a premium doorstep wash to you — a spotless exterior and a fresh interior, done with precision and punctuality.
-                </p>
-                <div style="width: 50px; height: 2px; background: var(--primary-gold); margin: 0 auto 25px auto;"></div>
-                <p style="font-size: 1.1rem; line-height: 1.8; color: #ccc;">
-                    Our technician arrives with all the required equipment, making the entire process simple and hassle-free.
+    <!-- Infinite Marquee -->
+    <div class="w-full bg-brand-500 text-white py-4 overflow-hidden z-10 relative rotate-1 border-y-4 border-white/10 shadow-2xl">
+        <div class="flex animate-marquee whitespace-nowrap font-display font-bold text-2xl uppercase tracking-tight items-center">
+            <span class="mx-6 flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5"></i> Bangalore</span> • 
+            <span class="mx-6 flex items-center gap-2"><i data-lucide="droplets" class="w-5 h-5"></i> Exterior Foam</span> • 
+            <span class="mx-6 flex items-center gap-2"><i data-lucide="wind" class="w-5 h-5"></i> Interior Vacuum</span> • 
+            <span class="mx-6 flex items-center gap-2"><i data-lucide="check-circle" class="w-5 h-5"></i> On Time</span> • 
+            <span class="mx-6 flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5"></i> Bangalore</span> • 
+            <span class="mx-6 flex items-center gap-2"><i data-lucide="droplets" class="w-5 h-5"></i> Exterior Foam</span> • 
+            <span class="mx-6 flex items-center gap-2"><i data-lucide="wind" class="w-5 h-5"></i> Interior Vacuum</span> • 
+            <span class="mx-6 flex items-center gap-2"><i data-lucide="check-circle" class="w-5 h-5"></i> On Time</span> • 
+        </div>
+    </div>
+
+    <!-- About / Technician Info -->
+    <section class="py-20 bg-dark-800 relative z-10 border-y border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center reveal">
+                <div class="inline-flex items-center justify-center p-3 rounded-full bg-brand-500/10 text-brand-400 mb-6">
+                    <i data-lucide="wrench" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-display font-bold mb-4">Hassle-Free Experience</h3>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    Our foam wash and vacuuming service is clean, precise, and reliably on time. <br class="hidden md:block">
+                    Your technician arrives fully equipped with everything needed, ensuring a smooth, hassle-free experience.
                 </p>
             </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2 class="section-title reveal-on-scroll">Our Process</h2>
-            <div class="services-grid">
-                <div class="glass-card reveal-on-scroll" style="transition-delay: 0.1s;">
-                    <div class="service-icon">🫧</div>
-                    <h3>Foam Pre-Wash</h3>
-                    <p style="color: #aaa;">Thick pH-neutral snow foam lifts dirt safely before we even touch the paint.</p>
+    <section id="services" class="py-24 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-4">What We Offer</h2>
+                <p class="text-gray-400">Focused on the essentials for a perfect daily drive.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <!-- Service 1 -->
+                <div class="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition-all duration-300 reveal delay-100">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 rounded-lg bg-brand-500/20 text-brand-400">
+                            <i data-lucide="droplets" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-display font-bold mb-2">Exterior Foam Wash</h3>
+                            <p class="text-gray-400 text-sm">Thick foam application to lift dirt safely, followed by a high-pressure rinse.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass-card reveal-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="service-icon">🌪️</div>
-                    <h3>Interior Vacuum</h3>
-                    <p style="color: #aaa;">Industrial suction for carpets, mats, and tight crevices.</p>
+
+                <!-- Service 2 -->
+                <div class="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition-all duration-300 reveal delay-200">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 rounded-lg bg-brand-500/20 text-brand-400">
+                            <i data-lucide="wind" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-display font-bold mb-2">Interior Vacuuming</h3>
+                            <p class="text-gray-400 text-sm">Removal of dust and debris from seats, mats, and carpets.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass-card reveal-on-scroll" style="transition-delay: 0.3s;">
-                    <div class="service-icon">🛡️</div>
-                    <h3>Mat Cleaning</h3>
-                    <p style="color: #aaa;">Deep cleaning and scrubbing of rubber or fabric mats to remove ingrained dirt.</p>
+
+                <!-- Service 3 -->
+                <div class="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition-all duration-300 reveal delay-300">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 rounded-lg bg-brand-500/20 text-brand-400">
+                            <i data-lucide="disc" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-display font-bold mb-2">Tyre & Rim Shine</h3>
+                            <p class="text-gray-400 text-sm">Cleaning rims and dressing tyres for a complete finished look.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass-card reveal-on-scroll" style="transition-delay: 0.4s;">
-                    <div class="service-icon">✨</div>
-                    <h3>Tyre Dressing</h3>
-                    <p style="color: #aaa;">Satin-finish tyre dressing that lasts for weeks, not days.</p>
+
+                <!-- Service 4 -->
+                <div class="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition-all duration-300 reveal delay-300">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 rounded-lg bg-brand-500/20 text-brand-400">
+                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-display font-bold mb-2">Basic Interior Wipe-down</h3>
+                            <p class="text-gray-400 text-sm">Wiping down dashboard and console surfaces to remove dust.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
-        <div class="container">
-            <h2 class="section-title reveal-on-scroll">Pricing</h2>
-            <div class="pricing-grid">
-                <div class="glass-card reveal-on-scroll">
-                    <h3>Hatchback</h3>
-                    <div class="price">399</div>
-                    <ul class="pricing-features">
-                        <li>Exterior Foam Wash</li>
-                        <li>Interior Vacuum</li>
-                        <li>Mat Cleaning</li>
-                        <li>Tyre Dressing</li>
-                    </ul>
-                    <a href="https://wa.me/919742943270?text=Hatchback" class="btn-outline">Book Now</a>
-                </div>
+    <section id="pricing" class="py-24 bg-dark-800 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <h2 class="text-4xl md:text-6xl font-display font-bold">Simple Pricing</h2>
+                <p class="text-gray-400 mt-4">Transparent rates. No hidden charges.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 
-                <div class="glass-card reveal-on-scroll" style="border-color: var(--primary-gold);">
-                    <div style="color: var(--primary-gold); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">POPULAR</div>
-                    <h3>Sedan</h3>
-                    <div class="price">449</div>
-                    <ul class="pricing-features">
-                        <li>Exterior Foam Wash</li>
-                        <li>Interior Vacuum</li>
-                        <li>Mat Cleaning</li>
-                        <li>Tyre Dressing</li>
-                    </ul>
-                    <a href="https://wa.me/919742943270?text=Sedan" class="btn-outline" style="background: var(--primary-gold); border-color: var(--primary-gold); color: black;">Book Now</a>
+                <!-- Hatchback -->
+                <div class="relative group rounded-2xl bg-dark-900 border border-white/10 overflow-hidden hover:border-brand-500/50 transition-all duration-300 reveal delay-100 flex flex-col">
+                    <div class="h-48 overflow-hidden relative bg-dark-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent z-10 opacity-60"></div>
+                        <!-- Image: Hatchback -->
+                        <img src="hatchback.jpg" alt="Hatchback Foam Wash" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-display font-bold mb-2 text-white">Hatchback</h3>
+                        <div class="text-4xl font-bold text-brand-400 mb-6">₹399</div>
+                        
+                        <div class="space-y-4 mb-8 flex-grow">
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Exterior Foam Wash
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Interior Vacuuming
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Tyre Shine
+                            </div>
+                        </div>
+                        
+                        <a href="https://wa.me/919742943270?text=Hi%2C%20I%20would%20like%20to%20book%20a%20wash%20for%20my%20Hatchback" class="w-full py-3 rounded-xl border border-white/20 text-center font-medium hover:bg-brand-600 hover:border-brand-600 hover:text-white transition-colors">
+                            Book Now
+                        </a>
+                    </div>
                 </div>
 
-                <div class="glass-card reveal-on-scroll">
-                    <h3>SUV / MUV</h3>
-                    <div class="price">499</div>
-                    <ul class="pricing-features">
-                        <li>Exterior Foam Wash</li>
-                        <li>Interior Vacuum</li>
-                        <li>Mat Cleaning</li>
-                        <li>Tyre Dressing</li>
-                    </ul>
-                    <a href="https://wa.me/919742943270?text=SUV" class="btn-outline">Book Now</a>
+                <!-- Sedan -->
+                <div class="relative group rounded-2xl bg-dark-900 border border-brand-500/30 overflow-hidden shadow-lg shadow-brand-900/20 hover:border-brand-400 transition-all duration-300 reveal delay-200 transform md:-translate-y-4 flex flex-col">
+                    <div class="absolute top-0 left-0 right-0 bg-brand-600 text-white text-xs font-bold text-center py-1 tracking-widest uppercase z-20">Most Popular</div>
+                    <div class="h-48 overflow-hidden relative bg-dark-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent z-10 opacity-60"></div>
+                        <!-- Image: Sedan -->
+                        <img src="sedan.jpg" alt="Sedan Foam Wash" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow pt-6">
+                        <h3 class="text-2xl font-display font-bold mb-2 text-white">Sedan</h3>
+                        <div class="text-4xl font-bold text-brand-400 mb-6">₹449</div>
+                        
+                        <div class="space-y-4 mb-8 flex-grow">
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Exterior Foam Wash
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Interior Vacuuming
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Tyre Shine
+                            </div>
+                        </div>
+                        
+                        <a href="https://wa.me/919742943270?text=Hi%2C%20I%20would%20like%20to%20book%20a%20wash%20for%20my%20Sedan" class="w-full py-3 rounded-xl bg-brand-600 text-white text-center font-bold hover:bg-brand-500 transition-colors">
+                            Book Now
+                        </a>
+                    </div>
                 </div>
+
+                <!-- SUV -->
+                <div class="relative group rounded-2xl bg-dark-900 border border-white/10 overflow-hidden hover:border-brand-500/50 transition-all duration-300 reveal delay-300 flex flex-col">
+                    <div class="h-48 overflow-hidden relative bg-dark-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-900 to-transparent z-10 opacity-60"></div>
+                         <!-- Image: SUV -->
+                         <img src="suv.jpg" alt="SUV Foam Wash" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-display font-bold mb-2 text-white">SUV</h3>
+                        <div class="text-4xl font-bold text-brand-400 mb-6">₹499</div>
+                        
+                        <div class="space-y-4 mb-8 flex-grow">
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Exterior Foam Wash
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Interior Vacuuming
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-gray-300">
+                                <i data-lucide="check" class="w-4 h-4 text-brand-500"></i> Tyre Shine
+                            </div>
+                        </div>
+                        
+                        <a href="https://wa.me/919742943270?text=Hi%2C%20I%20would%20like%20to%20book%20a%20wash%20for%20my%20SUV" class="w-full py-3 rounded-xl border border-white/20 text-center font-medium hover:bg-brand-600 hover:border-brand-600 hover:text-white transition-colors">
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title reveal-on-scroll">Contact Us</h2>
-            <div class="contact-box glass-card reveal-on-scroll">
-                <p style="color: #ccc; margin-bottom: 30px;">Bangalore's most trusted doorstep detailers.</p>
-                <a href="https://wa.me/919742943270" class="contact-link">
-                    <span>📞</span> +91 97429 43270
-                </a>
-                <a href="mailto:support@floamy.in" class="contact-link">
-                    <span>✉️</span> support@floamy.in
-                </a>
+    <section class="py-24 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="bg-gradient-to-br from-dark-800 to-dark-900 p-10 md:p-16 rounded-3xl border border-white/10 text-center reveal">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">Book Your Slot Today</h2>
+                <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
+                    We are ready to give your car the shine it deserves. Contact us directly via WhatsApp or Email.
+                </p>
+                
+                <div class="flex flex-col md:flex-row justify-center gap-6">
+                    <a href="https://wa.me/919742943270" class="px-8 py-4 bg-green-600 text-white rounded-xl font-bold text-lg hover:bg-green-500 transition-colors flex items-center justify-center gap-3 shadow-lg shadow-green-900/20">
+                        <i data-lucide="message-circle" class="w-6 h-6"></i> WhatsApp Us
+                    </a>
+                    <a href="mailto:support@floamy.in" class="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-xl font-medium text-lg hover:bg-white/10 transition-colors flex items-center justify-center gap-3">
+                        <i data-lucide="mail" class="w-6 h-6"></i> support@floamy.in
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer style="text-align: center; padding: 40px; color: #555; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">
-        &copy; 2025 FLOAMY. BANGALORE.
+    <footer class="bg-black border-t border-white/10 pt-20 pb-10 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-16">
+                <div class="mb-10 md:mb-0">
+                    <a href="#" class="text-3xl font-display font-bold tracking-tighter flex items-center gap-2">
+                        <i data-lucide="droplets" class="text-brand-500 w-6 h-6"></i> FLOAMY
+                    </a>
+                    <p class="text-gray-500 mt-4 max-w-xs">
+                        Premium doorstep car wash services in Bangalore.
+                    </p>
+                </div>
+                <div class="flex flex-col gap-4 text-gray-400">
+                    <div><strong class="text-white">Location:</strong> Bangalore, India</div>
+                    <div><strong class="text-white">Contact:</strong> support@floamy.in</div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-gray-600 text-sm">
+                    &copy; 2023 Floamy. All rights reserved.
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script>
-        // --- LINEAR SQUEEGEE WIPE LOGIC ---
-        const introContainer = document.getElementById('intro-container');
-        const wiper = document.getElementById('wiper');
-        const heroContent = document.querySelector('.hero-content');
-        const loadingText = document.querySelector('.loading-text');
-        
-        let startTime = null;
-        const wipeDuration = 1500; 
-        const loadDelay = 1500; 
-        
-        setTimeout(() => {
-            loadingText.style.transition = "opacity 0.3s";
-            loadingText.style.opacity = "0";
-            requestAnimationFrame(animateLinearWipe);
-        }, loadDelay);
-        
-        function animateLinearWipe(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const progress = (timestamp - startTime) / wipeDuration;
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-            if (progress <= 1) {
-                const ease = progress < 0.5 
-                    ? 2 * progress * progress 
-                    : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-                
-                const percentage = ease * 100;
-                wiper.style.transform = `translateX(calc(${percentage}vw))`;
-                introContainer.style.maskImage = `linear-gradient(to right, transparent ${percentage}%, black ${percentage}%)`;
-                introContainer.style.webkitMaskImage = `linear-gradient(to right, transparent ${percentage}%, black ${percentage}%)`;
+        // ROBUST LOADER: Failsafe timeout to ensure site loads even if images are slow/broken
+        window.addEventListener('load', () => {
+            removeLoader();
+        });
 
-                requestAnimationFrame(animateLinearWipe);
-            } else {
-                wiper.style.display = 'none'; 
-                introContainer.style.display = 'none';
-                heroContent.classList.add('visible');
+        // Backup: If window.load takes too long (more than 3 sec), force remove loader
+        setTimeout(removeLoader, 3000);
+
+        function removeLoader() {
+            const loader = document.getElementById('loader');
+            if (loader && loader.style.display !== 'none') {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
             }
         }
 
-        // --- Menu Logic ---
-        function toggleMenu() {
-            document.getElementById('menuOverlay').classList.toggle('active');
-        }
+        // IMAGE DEBUGGER: Helps you see if images are missing
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function() {
+                this.onerror = null; // prevent infinite loop
+                // Replace broken image with a helpful placeholder
+                const parent = this.parentElement;
+                const fileName = this.getAttribute('src');
+                
+                // Create error message container
+                const errorDiv = document.createElement('div');
+                errorDiv.className = "absolute inset-0 flex flex-col items-center justify-center bg-dark-800 border border-red-500/30 p-4 text-center";
+                errorDiv.innerHTML = `
+                    <i data-lucide="image-off" class="w-8 h-8 text-red-400 mb-2"></i>
+                    <span class="text-xs text-red-300 font-mono">Missing: ${fileName}</span>
+                    <span class="text-[10px] text-gray-500 mt-1">Upload this file to your folder</span>
+                `;
+                
+                parent.appendChild(errorDiv);
+                lucide.createIcons(); // Re-init icons for the error message
+                this.style.display = 'none'; // Hide broken image icon
+            };
+        });
 
-        // --- Navbar Scroll Logic ---
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
             } else {
-                nav.classList.remove('scrolled');
+                mobileMenu.classList.add('translate-x-full');
             }
         });
 
-        // --- Scroll Reveal ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
                 }
             });
-        }, { threshold: 0.1 });
+        };
 
-        document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-            observer.observe(el);
+        window.addEventListener('scroll', revealOnScroll);
+        // Trigger once on load
+        revealOnScroll();
+
+        // Navbar Glass Effect on Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2');
+            }
         });
     </script>
 </body>
